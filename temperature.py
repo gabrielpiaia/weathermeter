@@ -1,19 +1,60 @@
 import requests
+from sqlalchemy import create_engine, Column, Integer, String, Float, DateTime
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+from datetime import datetime
+import time
 
-API_KEY = "2aa6d979d34f9c35275a767a6bc2d620"  
-city_name = "Santa Vitória do Palmar"
+# Configuração do banco de dados MySQL
+DATABASE_URI = 'mysql+pymysql://gabriel:Gabriel#12345!@localhost:3306/weathermeter'
 
-# adicionado units=metric para receber temperatura em Celsius e lang para tradução
-link = f"https://api.openweathermap.org/data/2.5/weather?q={city_name}&appid={API_KEY}&units=metric&lang=pt_br"
+# Conexão e configuração do SQLAlchemy
+engine = create_engine(DATABASE_URI)
+Session = sessionmaker(bind=engine)
+session = Session()
+Base = declarative_base()
 
+# Definição da tabela 'temperatura'
+class Temperatura(Base):
+    __tablename__ = 'temperatura'
 
-requisicao = requests.get(link)
+    id = Column(Integer, primary_key=True)
+    cidade = Column(String(50))
+    temperature = Column(Float)
+    time = Column(DateTime)
 
-if requisicao.status_code == 200:
-    requisicao_dic = requisicao.json()
-    descricao = requisicao_dic['weather'][0]['description']  # Pega o dicionário
-    temperatura = requisicao_dic['main']['temp']  # Corrigido para 'main'
-    
-    print(descricao, f"{temperatura} graus")
-else:
-    print(f"Erro: {requisicao.status_code} - {requisicao.text}")
+# Cria a tabela no banco de dados (se não existir)
+Base.metadata.create_all(engine)
+
+# Função para salvar a cidade e a temperatura no banco de dados
+def salvar_dados_no_banco(city_name, temperature):
+    nova_temperatura = Temperatura(cidade=city_name, temperature=temperature, time=datetime.now())
+    session.add(nova_temperatura)
+    session.commit()
+    print(f"Dados salvos: {city_name} - {temperature}°C")
+
+# Função para consumir a API do OpenWeather
+def obter_temperatura(city_name):
+    API_KEY = "2aa6d979d34f9c35275a767a6bc2d620"
+    url = f"http://api.openweathermap.org/data/2.5/weather?q={city_name}&appid={API_KEY}&units=metric"
+
+    response = requests.get(url)
+    if response.status_code == 200:
+        dados = response.json()
+        temperatura = dados['main']['temp']  # Temperatura em Celsius
+        return temperatura
+    else:
+        print("Erro ao obter os dados da API")
+        return None
+
+# Nome da cidade a ser consultada
+city_name = "Pelotas"
+
+# Loop para executar a cada 2 minutos
+while True:
+    # Obter a temperatura da cidade e salvar no banco de dados
+    temperatura_atual = obter_temperatura(city_name)
+    if temperatura_atual is not None:
+        salvar_dados_no_banco(city_name, temperatura_atual)
+
+    time.sleep(120)  # Aguarda 120 segundos (2 minutos)
