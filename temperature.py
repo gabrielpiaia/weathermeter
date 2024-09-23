@@ -43,7 +43,7 @@ def obter_temperatura(city_name):
     if response.status_code == 200:
         dados = response.json()
         temperatura = dados['main']['temp']  # Temperatura em Celsius
-        descricao = dados['weather'][0]['description']  # Descrição do clima
+        descricao = dados['weather'][0]['description']  # Descrição do clima em br &lang=pt_br
         return temperatura, descricao
     else:
         print("Erro ao obter os dados da API")
@@ -59,4 +59,4 @@ while True:
     if temperatura_atual is not None:
         salvar_dados_no_banco(city_name, temperatura_atual, descricao_atual)
 
-    time.sleep(120)  # Aguarda 120 segundos (2 minutos)
+    time.sleep(120)  
