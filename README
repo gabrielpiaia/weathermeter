@@ -1,3 +1,7 @@
+lang=pt_br
+
 python3 temperature.py 
 chuva moderada 17.01 graus
 {'coord': {'lon': -53.3681, 'lat': -33.5189}, 'weather': [{'id': 501, 'main': 'Rain', 'description': 'chuva moderada', 'icon': '10d'}], 'base': 'stations', 'main': {'temp': 17.01, 'feels_like': 17.27, 'temp_min': 17.01, 'temp_max': 17.01, 'pressure': 1013, 'humidity': 96, 'sea_level': 1013, 'grnd_level': 1012}, 'visibility': 5368, 'wind': {'speed': 4.08, 'deg': 143, 'gust': 10.57}, 'rain': {'1h': 2.73}, 'clouds': {'all': 100}, 'dt': 1727097559, 'sys': {'country': 'BR', 'sunrise': 1727083255, 'sunset': 1727127028}, 'timezone': -10800, 'id': 3449747, 'name': 'Santa Vitória do Palmar', 'cod': 200}z
+
+
