@@ -1,12 +1,19 @@
 API ESTA NA PORTA 8080
 
+
+SUBSTITUIR ESPAÇO POR "%20" EM DATAS E CIDADES
+
 exemplo consulta período:
 
 Este comando busca os dados de temperatura entre 18:00 e 18:30 do dia 2024-09-23. Note que os espaços entre a data e a hora precisam ser codificados como %20 na URL.
 informando cidade, hora inicial e final
 curl -X GET "http://127.0.0.1:8080/api/temperatura_por_cidade?cidade=Santa%20Vitoria%20do%20Palmar&datainicial=2024-09-23%2018:00:00&datafinal=2024-09-23%2019:00:00"
+http://127.0.0.1:8080/api/temperatura_por_cidade?cidade=Santa%20Vitoria%20do%20Palmar&datainicial=2024-09-23%2018:00:00&datafinal=2024-09-23%2019:00:00
 
-temperatura do dia
-http://127.0.0.1:5000/api/temperatura_dia_atual
+
+
+http://localhost:8080/api/temperatura_dia_atual?cidade=NomeDaCidade
+
+
 temperatura da hora:
 http://127.0.0.1:5000/api/temperatura_ultima_hora

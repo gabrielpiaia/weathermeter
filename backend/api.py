@@ -7,8 +7,13 @@ import logging
 
 app = Flask(__name__)
 
+# Configuração do logging
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+
 # Função para conectar ao banco de dados e buscar dados
 def execute_query(query):
+    cursor = None
+    conn = None
     try:
         conn = mysql.connector.connect(
             host=os.getenv("DB_HOST", "localhost"),
@@ -19,9 +24,10 @@ def execute_query(query):
         cursor = conn.cursor(dictionary=True)
         cursor.execute(query)
         result = cursor.fetchall()
+        logging.info(f"Query executed successfully: {query}")
         return result
     except Error as e:
-        print(f"Erro ao conectar ao MySQL: {e}")
+        logging.error(f"Erro ao conectar ao MySQL: {e}")
         return None
     finally:
         if cursor:
@@ -45,39 +51,70 @@ def temperatura_ultima_hora():
         
         if not data:
             logging.warning("No data found for the last hour")
-            return jsonify({"error": "No data found"}), 404
+            return jsonify([]), 200  # Retorna uma lista vazia com status 200
 
         logging.info(f"Data returned: {data}")
-        return jsonify(data)
+        return jsonify(data), 200
     except Exception as e:
-        logging.error(f"Error occurred: {e}")
+        logging.error(f"Error occurred in temperatura_ultima_hora: {e}")
         return jsonify({"error": "Internal server error"}), 500
 
 # 2. Rota para temperatura do dia atual
 @app.route('/api/temperatura_dia_atual')
 def temperatura_dia_atual():
-    hoje = datetime.now().strftime('%Y-%m-%d')
-    inicio_dia = f"{hoje} 00:00:00"
-    fim_dia = f"{hoje} 23:59:59"
-    query = f"SELECT cidade, temperature, time FROM temperatura WHERE time BETWEEN '{inicio_dia}' AND '{fim_dia}'"
-    data = execute_query(query)
-    return jsonify(data) if data else jsonify({"error": "Erro ao buscar dados"}), 500
+    cidade = request.args.get('cidade')  # Obtém o parâmetro 'cidade' da URL
 
+    if not cidade:
+        logging.warning("Missing 'cidade' parameter in request.")
+        return jsonify({"error": "Parâmetro 'cidade' é obrigatório"}), 400
+
+    try:
+        hoje = datetime.now().strftime('%Y-%m-%d')
+        inicio_dia = f"{hoje} 00:00:00"
+        fim_dia = f"{hoje} 23:59:59"
+        query = f"SELECT cidade, temperature, time FROM temperatura WHERE cidade = '{cidade}' AND time BETWEEN '{inicio_dia}' AND '{fim_dia}'"
+        logging.debug(f"Executing query: {query}")
+        data = execute_query(query)
+
+        if data is None:
+            logging.error("Query returned None.")
+            return jsonify({"error": "Query execution failed"}), 500
+        
+        if not data:
+            logging.warning(f"No data found for city '{cidade}' today")
+            return jsonify([]), 200  # Retorna uma lista vazia com status 200
+
+        logging.info(f"Data returned for city '{cidade}': {data}")
+        return jsonify(data), 200
+    except Exception as e:
+        logging.error(f"Error occurred in temperatura_dia_atual: {e}")
+        return jsonify({"error": "Internal server error"}), 500
+    
 # 3. Rota para temperatura com intervalo personalizado
 @app.route('/api/temperatura_por_cidade')
 def temperatura_por_cidade():
-    # Obter parâmetros da URL
     cidade = request.args.get('cidade')
     datainicial = request.args.get('datainicial')
     datafinal = request.args.get('datafinal')
 
     if not cidade or not datainicial or not datafinal:
+        logging.warning("Missing parameters in request.")
         return jsonify({"error": "Parâmetros 'cidade', 'datainicial' e 'datafinal' são obrigatórios"}), 400
 
-    # Query para intervalo de tempo personalizado
     query = f"SELECT cidade, temperature, time FROM temperatura WHERE cidade = '{cidade}' AND time BETWEEN '{datainicial}' AND '{datafinal}'"
+    logging.debug(f"Executing query: {query}")
     data = execute_query(query)
-    return jsonify(data) if data else jsonify({"error": "Erro ao buscar dados"}), 500
+
+    if data is None:
+        logging.error("Query returned None.")
+        return jsonify({"error": "Query execution failed"}), 500
+
+    if not data:
+        logging.warning("No data found for the specified city and date range.")
+        return jsonify([]), 200  # Retorna uma lista vazia com status 200
+
+    logging.info(f"Data returned: {data}")
+    return jsonify(data), 200
 
 if __name__ == '__main__':
     app.run(debug=True, port=8080)
