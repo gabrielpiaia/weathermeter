@@ -1,0 +1,7 @@
+
+
+API_KEY = "2aa6d979d34f9c35275a767a6bc2d620"  
+EXEMPLE:
+
+python3 temperature2.py 
+{'coord': {'lon': -52.3425, 'lat': -31.7719}, 'weather': [{'id': 701, 'main': 'Mist', 'description': 'mist', 'icon': '50d'}, {'id': 500, 'main': 'Rain', 'description': 'light rain', 'icon': '10d'}], 'base': 'stations', 'main': {'temp': 293.16, 'feels_like': 293.83, 'temp_min': 293.16, 'temp_max': 293.16, 'pressure': 1012, 'humidity': 100, 'sea_level': 1012, 'grnd_level': 1010}, 'visibility': 4000, 'wind': {'speed': 5.14, 'deg': 50}, 'rain': {'1h': 0.47}, 'clouds': {'all': 100}, 'dt': 1727095730, 'sys': {'type': 1, 'id': 8408, 'country': 'BR', 'sunrise': 1727083017, 'sunset': 1727126774}, 'timezone': -10800, 'id': 3454244, 'name': 'Pelotas', 'cod': 200}
