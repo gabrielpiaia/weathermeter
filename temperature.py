@@ -50,7 +50,7 @@ def obter_temperatura(city_name):
         return None, None
 
 # Nome da cidade a ser consultada
-city_name = "Pelotas"
+city_name = "Santa Vitoria do Palmar"
 
 # Loop para executar a cada 2 minutos
 while True:
