@@ -1,4 +1,7 @@
-lang=pt_br
+
+
+Aplicação em python para consumir api do site https://openweathermap.org/api
+Salva estatisticas de clima da cidade indicada a cada 2h e fornece API para consultas
 
 python3 temperature.py 
 chuva moderada 17.01 graus
