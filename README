@@ -27,7 +27,10 @@
 - MySQL
 - Conta na OpenWeather API (para obter sua chave de API)
 
+### Passos para Instalação
 
+1. **Clone o repositório**:
 
-
-
+   ```bash
+   git clone https://github.com/seu-usuario/watchmeter.git
+   cd watchmeter
