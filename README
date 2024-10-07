@@ -1,10 +1,21 @@
+Watchmeter
+Watchmeter é uma aplicação em Python que consome a API do OpenWeather para salvar estatísticas de clima a cada 2 horas e fornece uma API para consultas de temperatura. A aplicação salva dados meteorológicos, como temperatura e descrição do clima, para a cidade especificada, e permite consultas por meio de uma API construída com Flask.
 
-
-Aplicação em python para consumir api do site https://openweathermap.org/api
-Salva estatisticas de clima da cidade indicada a cada 2h e fornece API para consultas
-
-python3 temperature.py 
-chuva moderada 17.01 graus
-{'coord': {'lon': -53.3681, 'lat': -33.5189}, 'weather': [{'id': 501, 'main': 'Rain', 'description': 'chuva moderada', 'icon': '10d'}], 'base': 'stations', 'main': {'temp': 17.01, 'feels_like': 17.27, 'temp_min': 17.01, 'temp_max': 17.01, 'pressure': 1013, 'humidity': 96, 'sea_level': 1013, 'grnd_level': 1012}, 'visibility': 5368, 'wind': {'speed': 4.08, 'deg': 143, 'gust': 10.57}, 'rain': {'1h': 2.73}, 'clouds': {'all': 100}, 'dt': 1727097559, 'sys': {'country': 'BR', 'sunrise': 1727083255, 'sunset': 1727127028}, 'timezone': -10800, 'id': 3449747, 'name': 'Santa Vitória do Palmar', 'cod': 200}z
-
-
+Funcionalidades
+Captura de Temperatura: Consulta a temperatura e a descrição do clima da cidade configurada a cada 2 horas e salva os dados no banco de dados.
+API para Consulta de Temperatura: Fornece uma API para consultas de dados meteorológicos, incluindo as rotas:
+Temperatura da última hora.
+Temperatura registrada no dia atual para uma cidade específica.
+Temperatura de uma cidade em um intervalo de tempo personalizado.
+Tecnologias Utilizadas
+Python: Linguagem principal da aplicação.
+Flask: Framework web para criar a API.
+SQLAlchemy: ORM para interação com o banco de dados MySQL.
+MySQL: Banco de dados utilizado para armazenar os dados meteorológicos.
+OpenWeather API: Fonte de dados meteorológicos.
+Requests: Biblioteca para realizar chamadas HTTP para a API OpenWeather.
+Como Configurar e Executar
+Pré-requisitos
+Python 3.x
+MySQL
+Conta na OpenWeather API (para obter sua chave de API)
