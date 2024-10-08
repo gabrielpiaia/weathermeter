@@ -1,6 +1,6 @@
 # Watchmeter
 
-**Watchmeter** é uma aplicação em Python que consome a API do [OpenWeather](https://openweathermap.org/api) para salvar estatísticas de clima a cada 2 horas e fornece uma API para consultas de temperatura. A aplicação salva dados meteorológicos, como temperatura e descrição do clima, para a cidade especificada, e permite consultas por meio de uma API construída com Flask.
+**Watchmeter** é uma aplicação em Python que consome a API do [OpenWeather](https://openweathermap.org/api) para salvar estatísticas de clima a cada 2 minutos e fornece uma API para consultas de temperatura. A aplicação salva dados meteorológicos, como temperatura e descrição do clima, para a cidade especificada, e permite consultas por meio de uma API construída com Flask.
 
 ## Funcionalidades
 
