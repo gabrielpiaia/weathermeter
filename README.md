@@ -4,7 +4,7 @@
 
 ## Funcionalidades
 
-- **Captura de Temperatura**: Consulta a temperatura e a descrição do clima da cidade configurada a cada 2 horas e salva os dados no banco de dados.
+- **Captura de Temperatura**: Consulta a temperatura e a descrição do clima da cidade configurada a cada 2 minutos e salva os dados no banco de dados.
 - **API para Consulta de Temperatura**: Fornece uma API para consultas de dados meteorológicos, incluindo as rotas:
   - Temperatura da última hora.
   - Temperatura registrada no dia atual para uma cidade específica.
